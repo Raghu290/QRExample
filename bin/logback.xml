@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="30 seconds">
+<configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <!-- On Windows machines setting withJansi to true enables ANSI
-     color code interpretation by the Jansi library. This requires
-     org.fusesource.jansi:jansi:1.8 on the class path.  Note that
-     Unix-based operating systems such as Linux and Mac OS X
-     support ANSI color codes by default. -->
         <withJansi>true</withJansi>
         <encoder>
-            <pattern>%date{HH:mm:ss.SSS} %highlight([%level]) %cyan(%logger{30}) %white(|%thread|) %message%n%xException</pattern>
-            <!--<pattern>%date %highlight([%level]) %cyan(%logger{30}) %white(|%thread|) %message%n%xException</pattern>-->
+            <!--<pattern>%date %highlight([%level]) %logger %thread %message%n%xException</pattern>-->
+            <pattern>%highlight([%level]) %message%n%xException</pattern>
         </encoder>
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>../log/application.log</file>
 
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>../log/application.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
 
-            <maxFileSize>20MB</maxFileSize>
-            <maxHistory>5</maxHistory>
-            <totalSizeCap>1GB</totalSizeCap>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+
+            <!-- or whenever the file size reaches 10MB -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
 
         <encoder>
@@ -35,8 +34,8 @@
             <!-- daily rollover -->
             <fileNamePattern>backup_logs/${LOGGER_PREFIX}_timers_coderunner.[id].%d{yyyy-MM-dd}.log</fileNamePattern>
 
-            <maxHistory>5</maxHistory>
-            <totalSizeCap>1GB</totalSizeCap>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
 
         <encoder>
@@ -50,8 +49,8 @@
             <!-- daily rollover -->
             <fileNamePattern>backup_logs/${LOGGER_PREFIX}_workers_coderunner.[id].%d{yyyy-MM-dd}.log</fileNamePattern>
 
-            <maxHistory>5</maxHistory>
-            <totalSizeCap>1GB</totalSizeCap>
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
 
         <encoder>
@@ -65,18 +64,16 @@
         <appender-ref ref="FILE"/>
     </root>
 
-    <!--Custom Loggers -->
-    <logger name="com.backendless.coderunner.CommandLineProcessor" level="INFO"/>
-    <logger name="com.backendless.healthcheck.HealthCheckHttpServer" level="INFO"/>
     <logger name="com.backendless.redis.JedisManager" level="OFF"/>
+
+    <!--Custom Loggers -->
     <logger name="AmazonLogger" level="OFF"/>
     <logger name="CoderunnerCloudJedisManager" level="OFF"/>
     <logger name="CoderunnerDebugJedisManager" level="OFF"/>
-    <logger name="TimersLogger" level="WARN" additivity="false">
+    <logger name="TimersLogger" level="DEBUG" additivity="false">
         <appender-ref ref="TIMERS-ROLLING-FILE" />
     </logger>
     <logger name="WorkersLogger" level="OFF" additivity="false">
         <appender-ref ref="WORKERS-ROLLING-FILE" />
     </logger>
-    <logger name="com.backendless.util.MetricsUtil" level="WARN"/>
 </configuration>

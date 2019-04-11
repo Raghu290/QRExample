@@ -1,27 +1,29 @@
 grant {
-    // only for test!
-    //permission java.security.AllPermission;
+	// only for test!
+	//permission java.security.AllPermission;
 
     permission java.util.logging.LoggingPermission "control";
     permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
 
-    permission java.util.PropertyPermission "*", "read";
+	permission java.util.PropertyPermission "*", "read";
 
-    //permission java.io.FilePermission "${user.home}${/}-", "read";
-    permission java.io.FilePermission "${user.dir}", "read";
+	//permission java.io.FilePermission "${user.home}${/}-", "read";
+	permission java.io.FilePermission "${user.dir}", "read";
     permission java.io.FilePermission "${user.dir}${/}-", "read";
-    permission java.io.FilePermission "${java.home}", "read";
+    permission java.io.FilePermission "file:${/}${user.dir}${/}CodeRunner.jar!${/}weborb-config.xml", "read";
+	permission java.io.FilePermission "${java.home}", "read";
     permission java.io.FilePermission "${java.home}${/}-", "read";
-    permission java.io.FilePermission "${system.repo.path}", "read";
+	permission java.io.FilePermission "${system.repo.path}", "read";
     permission java.io.FilePermission "${system.repo.path}${/}-", "read";
-    permission java.io.FilePermission "${location.jar}", "read";
+	permission java.io.FilePermission "${location.jar}", "read";
     permission java.io.FilePermission "${location.jar}${/}-", "read";
-    permission java.io.FilePermission "${location.classes}", "read";
+	permission java.io.FilePermission "${location.classes}", "read";
     permission java.io.FilePermission "${location.classes}${/}-", "read";
+	permission java.io.FilePermission "/opt/subversion/lib/x86_64/libsunec.dylib", "read";
 
 
     //permission java.lang.RuntimePermission "exitVM.*";
-    permission java.lang.RuntimePermission "getenv.*";
+	permission java.lang.RuntimePermission "getenv.*";
     permission java.lang.RuntimePermission "accessDeclaredMembers";
 
     permission java.lang.RuntimePermission "accessClassInPackage.sun.*";
@@ -33,10 +35,6 @@ grant {
     permission java.lang.RuntimePermission "loadLibrary.net";
     permission java.lang.RuntimePermission "loadLibrary.sunec";
     permission java.lang.RuntimePermission "loadLibrary.sunmscapi";
-    permission java.lang.RuntimePermission "loadLibrary.awt";
-    permission java.lang.RuntimePermission "loadLibrary.jpeg";
-    permission java.lang.RuntimePermission "loadLibrary.lcms";
-    permission java.lang.RuntimePermission "loadLibrary.fontmanager";
 
     permission java.lang.RuntimePermission "setFactory";
     permission java.lang.RuntimePermission "setContextClassLoader";
@@ -56,7 +54,7 @@ grant {
     permission java.net.NetPermission "getCookieHandler";
     permission java.net.NetPermission "getProxySelector";
     permission java.net.NetPermission "getResponseCache";
-    permission java.net.SocketPermission "*", "connect,resolve";
+	  permission java.net.SocketPermission "*", "connect,resolve";
 
 
     permission java.security.SecurityPermission "getPolicy";
@@ -99,5 +97,5 @@ grant codeBase "file:${user.dir}${/}CodeRunner.jar"
     permission java.io.FilePermission "${java.home}${/}..${/}lib${/}tools.jar", "read";
     permission java.io.FilePermission "${java.home}${/}..${/}lib", "read";
     permission java.io.FilePermission "${java.home}${/}..${/}lib${/}-", "read";
-    permission java.util.PropertyPermission "*", "read,write";
+    permission java.util.PropertyPermission "jdeps.profiles", "read";
 };
